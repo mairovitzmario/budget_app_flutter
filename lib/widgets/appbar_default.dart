@@ -9,24 +9,13 @@ class AppBarDefault extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       backgroundColor: Colors.transparent,
       elevation: 0,
-      titleSpacing: 25,
+      titleSpacing: 10,
+      iconTheme: IconThemeData(
+          size: 32, color: Theme.of(context).colorScheme.secondary),
       title: Text(
         title,
         style: Theme.of(context).textTheme.titleLarge,
       ),
-      actions: [
-        IconButton(
-          onPressed: () {},
-          icon: Icon(
-            Icons.settings,
-            size: 36,
-            color: Theme.of(context).colorScheme.primary,
-          ),
-        ),
-        SizedBox(
-          width: 10,
-        ),
-      ],
     );
   }
 

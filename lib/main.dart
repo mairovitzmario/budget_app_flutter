@@ -1,4 +1,6 @@
-import 'package:budget/pages/home_page.dart';
+import 'package:budget/pages/categories_page.dart';
+import 'package:budget/pages/dashboard_page.dart';
+import 'package:budget/pages/shopping_list_page.dart';
 import 'package:budget/pages/statistics_page.dart';
 import 'package:budget/theme.dart';
 import 'package:flutter/material.dart';
@@ -16,8 +18,10 @@ class MyApp extends StatelessWidget {
       theme: lightMode,
       initialRoute: '/',
       routes: {
-        '/': (context) => const HomePage(),
+        '/': (context) => const DashboardPage(),
         '/statistics': (context) => const StatisticsPage(),
+        'categories': (context) => CategoriesPage(),
+        '/shopping_list': (context) => ShoppingListPage(),
       },
       debugShowCheckedModeBanner: false,
     );
