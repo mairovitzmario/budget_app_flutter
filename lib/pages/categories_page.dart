@@ -9,7 +9,7 @@ class CategoriesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarDefault(title: 'Shopping List'),
+      appBar: AppBarDefault(title: 'Categories'),
       body: Container(),
       drawer: DrawerDefault(),
     );

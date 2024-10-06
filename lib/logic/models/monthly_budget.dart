@@ -1,18 +1,17 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class MonthlyBudget {
-  // Private member variables
-  int _spentBudget;
-  int _totalBudget;
+  double _spentBudget;
+  double _totalBudget;
   String _month;
   int _year;
 
-  // Constructor with optional named parameters
   MonthlyBudget(
-      {required int spentBudget,
-      required int totalBudget,
+      {required double spentBudget,
+      required double totalBudget,
       required String month,
       required int year})
       : _spentBudget = spentBudget,
@@ -20,10 +19,16 @@ class MonthlyBudget {
         _month = month,
         _year = year;
 
-  // Current Budget
-  int get spentBudget => _spentBudget;
+  MonthlyBudget.now({required double spentBudget, required double totalBudget})
+      : _spentBudget = spentBudget,
+        _totalBudget = totalBudget,
+        _month = DateFormat.MMMM().format(DateTime.now()),
+        _year = DateTime.now().year;
 
-  set spentBudget(int budget) {
+  // Current Budget
+  double get spentBudget => _spentBudget;
+
+  set spentBudget(double budget) {
     if (budget < 0) {
       throw ArgumentError("Budget cannot be negative");
     }
@@ -32,9 +37,9 @@ class MonthlyBudget {
   }
 
   // Total Budget
-  int get totalBudget => _totalBudget;
+  double get totalBudget => _totalBudget;
 
-  set totalBudget(int budget) {
+  set totalBudget(double budget) {
     if (budget < 0) {
       throw ArgumentError("Budget cannot be negative");
     }
@@ -43,6 +48,10 @@ class MonthlyBudget {
   }
 
   double get percentageSpent {
+    if (_totalBudget == 0) {
+      return 1;
+    }
+
     double ratio = _spentBudget / _totalBudget;
 
     if (ratio > 1) {
@@ -52,7 +61,7 @@ class MonthlyBudget {
     }
   }
 
-  int get remainingBudget => max(0, _totalBudget - _spentBudget);
+  double get remainingBudget => max(0, _totalBudget - _spentBudget);
 
   // Month
   String get month => _month;

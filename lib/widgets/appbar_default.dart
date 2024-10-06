@@ -7,14 +7,17 @@ class AppBarDefault extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: Colors.transparent,
+      backgroundColor: Theme.of(context).colorScheme.primary,
       elevation: 0,
       titleSpacing: 10,
       iconTheme: IconThemeData(
-          size: 32, color: Theme.of(context).colorScheme.secondary),
+          size: 32, color: Theme.of(context).colorScheme.inversePrimary),
       title: Text(
         title,
-        style: Theme.of(context).textTheme.titleLarge,
+        style: Theme.of(context)
+            .textTheme
+            .titleLarge
+            ?.copyWith(color: Theme.of(context).colorScheme.inversePrimary),
       ),
     );
   }

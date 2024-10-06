@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 Color surfaceColor = Colors.white;
 Color primaryColor = Colors.red.shade700;
-Color secondaryColor = Colors.red.shade400;
+Color secondaryColor = Colors.red.shade300;
 Color inversePrimaryColor = Colors.white;
 
 ThemeData lightMode = ThemeData(
@@ -12,8 +12,8 @@ ThemeData lightMode = ThemeData(
     secondary: secondaryColor,
     inversePrimary: inversePrimaryColor,
   ),
-  splashColor: Colors.transparent,
-  highlightColor: Colors.transparent,
+  //splashColor: Colors.transparent,
+  //highlightColor: Colors.transparent,
   textTheme: TextTheme(
     titleLarge: TextStyle(
       fontSize: 42,
@@ -29,6 +29,16 @@ ThemeData lightMode = ThemeData(
       fontSize: 22,
       fontWeight: FontWeight.w500,
       color: primaryColor,
+    ),
+    bodyLarge: TextStyle(
+      fontSize: 24,
+      fontWeight: FontWeight.w400,
+      color: inversePrimaryColor,
+    ),
+    bodyMedium: TextStyle(
+      fontSize: 20,
+      fontWeight: FontWeight.w500,
+      color: inversePrimaryColor,
     ),
     bodySmall: TextStyle(
       fontSize: 12,

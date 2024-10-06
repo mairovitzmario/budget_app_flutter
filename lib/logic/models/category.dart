@@ -43,4 +43,18 @@ class Category {
   void removeItem(Item item) {
     _items.remove(item);
   }
+
+  get totalSum {
+    double sum = 0;
+
+    if (items.length == 0) {
+      return sum;
+    }
+
+    for (int i = 0; i < items.length; i++) {
+      sum += items[i].price;
+    }
+
+    return sum;
+  }
 }
