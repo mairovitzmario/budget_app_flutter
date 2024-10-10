@@ -16,7 +16,7 @@ class BudgetProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void increaseSpentBudget(int addedMoney) {
+  void increaseSpentBudget(double addedMoney) {
     model.spentBudget += addedMoney;
     notifyListeners();
   }

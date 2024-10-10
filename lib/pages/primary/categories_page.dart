@@ -1,7 +1,7 @@
 import 'package:budget/widgets/appbar_default.dart';
 import 'package:flutter/material.dart';
 
-import '../widgets/drawer_default.dart';
+import '../../widgets/drawer_default.dart';
 
 class CategoriesPage extends StatelessWidget {
   const CategoriesPage({super.key});

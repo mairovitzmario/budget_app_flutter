@@ -12,8 +12,6 @@ ThemeData lightMode = ThemeData(
     secondary: secondaryColor,
     inversePrimary: inversePrimaryColor,
   ),
-  //splashColor: Colors.transparent,
-  //highlightColor: Colors.transparent,
   textTheme: TextTheme(
     titleLarge: TextStyle(
       fontSize: 42,
@@ -47,3 +45,26 @@ ThemeData lightMode = ThemeData(
     ),
   ),
 );
+
+InputDecoration buildTextFieldInputDecoration(
+    BuildContext context, String label) {
+  return InputDecoration(
+    labelText: label,
+    labelStyle: Theme.of(context)
+        .textTheme
+        .bodyMedium
+        ?.copyWith(color: Theme.of(context).colorScheme.secondary),
+    border: OutlineInputBorder(
+      borderSide: BorderSide(
+        color: Theme.of(context).colorScheme.secondary,
+        width: 1.5,
+      ),
+    ),
+    enabledBorder: OutlineInputBorder(
+      borderSide: BorderSide(
+        color: Theme.of(context).colorScheme.secondary,
+        width: 1.5,
+      ),
+    ),
+  );
+}

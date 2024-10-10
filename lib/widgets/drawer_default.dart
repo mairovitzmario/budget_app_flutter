@@ -1,8 +1,8 @@
 import 'package:budget/logic/navigation_utils.dart';
-import 'package:budget/pages/categories_page.dart';
-import 'package:budget/pages/dashboard_page.dart';
-import 'package:budget/pages/shopping_list_page.dart';
-import 'package:budget/pages/statistics_page.dart';
+import 'package:budget/pages/primary/categories_page.dart';
+import 'package:budget/pages/primary/dashboard_page.dart';
+import 'package:budget/pages/primary/shopping_list_page.dart';
+import 'package:budget/pages/primary/statistics_page.dart';
 import 'package:flutter/material.dart';
 
 class DrawerDefault extends StatelessWidget {

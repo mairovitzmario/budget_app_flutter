@@ -52,9 +52,21 @@ class Category {
     }
 
     for (int i = 0; i < items.length; i++) {
-      sum += items[i].price;
+      sum += items[i].price * items[i].quantity;
     }
 
     return sum;
+  }
+
+  Category filterItemsByDate(DateTime startDate, DateTime endDate) {
+    List<Item> filteredItems = _items.where((item) {
+      return item.date.isAfter(startDate) && item.date.isBefore(endDate);
+    }).toList();
+
+    return Category(
+      name: _name,
+      color: _color,
+      items: filteredItems,
+    );
   }
 }

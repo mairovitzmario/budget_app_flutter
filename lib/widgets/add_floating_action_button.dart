@@ -1,3 +1,5 @@
+import 'package:budget/pages/secondary/add_category_page.dart';
+import 'package:budget/pages/secondary/add_expense_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -37,8 +39,11 @@ class AddFloatingActionButton extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    _onAddCategoryTap(context);
+                  },
                   child: Container(
+                    width: double.infinity,
                     padding: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
                     child: Text(
                       'Add a category',
@@ -47,8 +52,11 @@ class AddFloatingActionButton extends StatelessWidget {
                   ),
                 ),
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    _onAddExpenseTap(context);
+                  },
                   child: Container(
+                    width: double.infinity,
                     padding: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
                     child: Text(
                       'Add an expense',
@@ -60,5 +68,17 @@ class AddFloatingActionButton extends StatelessWidget {
             ),
           );
         });
+  }
+
+  void _onAddExpenseTap(BuildContext context) {
+    Navigator.of(context).pop();
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => const AddExpensePage()));
+  }
+
+  void _onAddCategoryTap(BuildContext context) {
+    Navigator.of(context).pop();
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => const AddCategoryPage()));
   }
 }

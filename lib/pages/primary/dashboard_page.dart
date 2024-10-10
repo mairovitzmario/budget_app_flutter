@@ -7,19 +7,19 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-import '../logic/utils/dashboard_utils.dart';
-import '../widgets/add_floating_action_button.dart';
-import '../widgets/budget_overview.dart';
-import '../widgets/drawer_default.dart';
-
-var budget = MonthlyBudget(
-    spentBudget: 10000, totalBudget: 15000, month: 'October', year: 2024);
+import '../../logic/utils/dashboard_utils.dart';
+import '../../widgets/add_floating_action_button.dart';
+import '../../widgets/budget_overview.dart';
+import '../../widgets/drawer_default.dart';
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    var recentCategoriesList =
+        context.watch<CategoriesProvider>().filterCurrentMonth();
+
     return Scaffold(
       appBar: const AppBarDefault(title: 'Dashboard'),
       body: Padding(
@@ -49,13 +49,10 @@ class DashboardPage extends StatelessWidget {
               ListView.builder(
                   physics: NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
-                  itemCount:
-                      context.watch<CategoriesProvider>().categoriesList.length,
+                  itemCount: recentCategoriesList.length,
                   itemBuilder: (context, index) {
                     return CategoryCard(
-                      model: context
-                          .watch<CategoriesProvider>()
-                          .categoriesList[index],
+                      model: recentCategoriesList[index],
                     );
                   }),
               const SizedBox(

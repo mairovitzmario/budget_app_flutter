@@ -1,5 +1,6 @@
 import 'package:budget/logic/providers/budget_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class DashboardUtils {
@@ -32,11 +33,29 @@ class DashboardUtils {
                   // Text Field
                   TextField(
                     controller: controller,
-                    keyboardType: TextInputType.number,
+                    keyboardType: const TextInputType.numberWithOptions(
+                      decimal: true,
+                    ),
+                    inputFormatters: [
+                      FilteringTextInputFormatter.allow(
+                          RegExp(r'^\d+\.?\d{0,2}')),
+                    ],
                     autofocus: true,
                     decoration: InputDecoration(
-                      icon: const Icon(Icons.attach_money_rounded),
+                      icon: const Icon(Icons.payments_rounded),
                       iconColor: Theme.of(context).colorScheme.primary,
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Theme.of(context).colorScheme.primary,
+                          width: 1.5,
+                        ),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Theme.of(context).colorScheme.secondary,
+                          width: 1.5,
+                        ),
+                      ),
                     ),
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                           color: Theme.of(context).colorScheme.primary,
@@ -71,11 +90,29 @@ class DashboardUtils {
                       // Confirm Button
                       GestureDetector(
                         onTap: () {
-                          context
-                              .read<BudgetProvider>()
-                              .setTotalBudget(double.parse(controller.text));
-                          int.parse(controller.text);
-                          Navigator.of(context).pop();
+                          try {
+                            context
+                                .read<BudgetProvider>()
+                                .setTotalBudget(double.parse(controller.text));
+                            double.parse(controller.text);
+                            Navigator.of(context).pop();
+                          } catch (e) {
+                            showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                title: Text(
+                                  'Enter a number!',
+                                  style:
+                                      Theme.of(context).textTheme.titleMedium,
+                                ),
+                                backgroundColor:
+                                    Theme.of(context).colorScheme.surface,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                              ),
+                            );
+                          }
                         },
                         child: Text(
                           'Confirm',
