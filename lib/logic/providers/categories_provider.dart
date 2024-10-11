@@ -11,6 +11,23 @@ class CategoriesProvider extends ChangeNotifier {
 
   CategoriesProvider({required this.categoriesList});
 
+  void addCategory(Category? toAdd) {
+    if (toAdd == null) {
+      return;
+    }
+
+    categoriesList.add(toAdd);
+    notifyListeners();
+  }
+
+  void addItemToCategory(BuildContext context, Category? category, Item item) {
+    category?.addItem(item);
+    notifyListeners();
+    context
+        .read<BudgetProvider>()
+        .increaseSpentBudget(item.price * item.quantity);
+  }
+
   List<Category> filterCurrentMonth() {
     List<Category> newList = [];
     DateTime now = DateTime.now();
@@ -26,13 +43,5 @@ class CategoriesProvider extends ChangeNotifier {
     newList.sort((a, b) => b.totalSum.compareTo(a.totalSum));
 
     return newList;
-  }
-
-  void addItemToCategory(BuildContext context, Category? category, Item item) {
-    category?.addItem(item);
-    notifyListeners();
-    context
-        .read<BudgetProvider>()
-        .increaseSpentBudget(item.price * item.quantity);
   }
 }

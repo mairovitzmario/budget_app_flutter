@@ -72,7 +72,7 @@ class _AddExpensePageState extends State<AddExpensePage> {
               children: [
                 LockableAddButton(
                     isLocked: _isFormCompleted, onPressedFunc: _addItem),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
               ],

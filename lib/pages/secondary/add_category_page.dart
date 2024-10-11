@@ -1,7 +1,11 @@
+import 'package:budget/logic/models/category.dart';
+import 'package:budget/logic/providers/categories_provider.dart';
 import 'package:budget/theme.dart';
 import 'package:budget/widgets/appbar_secondary.dart';
+import 'package:budget/widgets/lockable_add_button.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class AddCategoryPage extends StatefulWidget {
   const AddCategoryPage({super.key});
@@ -12,7 +16,21 @@ class AddCategoryPage extends StatefulWidget {
 
 class _AddCategoryPageState extends State<AddCategoryPage> {
   final TextEditingController _nameController = TextEditingController();
-  Color screenPickerColor = Colors.grey;
+  bool _isFormCompleted = false;
+  Color selectedColor = Colors.grey;
+
+  @override
+  void initState() {
+    super.initState();
+    _nameController.addListener(_validateForm);
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,47 +47,60 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
                 const SizedBox(height: 15),
                 _buildNameField(context),
                 const SizedBox(height: 30),
-                GestureDetector(
-                  onTap: () => _buildColorPicker(context),
-                  child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 30, horizontal: 20),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        color: screenPickerColor),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Color',
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleSmall
-                              ?.copyWith(
-                                color:
-                                    screenPickerColor.computeLuminance() <= 0.5
-                                        ? Colors.white
-                                        : Colors.black,
-                              ),
-                        ),
-                        Icon(
-                          Icons.arrow_forward_ios_rounded,
-                          color: screenPickerColor.computeLuminance() <= 0.5
-                              ? Colors.white
-                              : Colors.black,
-                        )
-                      ],
-                    ),
-                  ),
-                )
+                _buildColorField(context),
               ],
             ),
-            const Column(
+            Column(
               children: [
-                SizedBox(
+                LockableAddButton(
+                    isLocked: _isFormCompleted,
+                    onPressedFunc: () => _addCategory()),
+                const SizedBox(
                   height: 10,
                 ),
               ],
             ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _addCategory() {
+    context.read<CategoriesProvider>().addCategory(
+          Category(name: _nameController.text, color: selectedColor),
+        );
+    Navigator.of(context).pop();
+  }
+
+  void _validateForm() {
+    // IF FORM IS VALID, BUTTON WILL BE ACTIVATED
+    setState(() {
+      _isFormCompleted =
+          _nameController.text.isNotEmpty && _nameController.text.length <= 14;
+    });
+  }
+
+  GestureDetector _buildColorField(BuildContext context) {
+    return GestureDetector(
+      onTap: () => _buildColorPicker(context),
+      child: Container(
+        padding: EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12), color: selectedColor),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Color',
+              style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                    color: getAdaptiveColor(selectedColor),
+                  ),
+            ),
+            Icon(
+              Icons.arrow_forward_ios_rounded,
+              color: getAdaptiveColor(selectedColor),
+            )
           ],
         ),
       ),
@@ -84,7 +115,7 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
           height: 450,
           child: ColorPicker(
             // Use the screenPickerColor as start and active color.
-            color: screenPickerColor,
+            color: selectedColor,
             pickersEnabled: const <ColorPickerType, bool>{
               ColorPickerType.both: false,
               ColorPickerType.primary: true,
@@ -96,7 +127,7 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
             },
             // Update the screenPickerColor using the callback.
             onColorChanged: (Color color) =>
-                setState(() => screenPickerColor = color),
+                setState(() => selectedColor = color),
             width: 44,
             height: 44,
             borderRadius: 22,
@@ -128,7 +159,8 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
           .textTheme
           .bodyMedium
           ?.copyWith(color: Theme.of(context).colorScheme.primary),
-      decoration: buildTextFieldInputDecoration(context, 'Name'),
+      decoration:
+          buildTextFieldInputDecoration(context, 'Name (max. 14 characters)'),
     );
   }
 }

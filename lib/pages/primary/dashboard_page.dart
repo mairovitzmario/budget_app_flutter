@@ -1,8 +1,11 @@
+import 'package:budget/logic/models/category.dart';
 import 'package:budget/logic/models/monthly_budget.dart';
 import 'package:budget/logic/providers/budget_provider.dart';
 import 'package:budget/logic/providers/categories_provider.dart';
-import 'package:budget/widgets/CategoryCard.dart';
+import 'package:budget/widgets/category_card_small.dart';
 import 'package:budget/widgets/appbar_default.dart';
+import 'package:budget/widgets/pie_chart.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -46,12 +49,17 @@ class DashboardPage extends StatelessWidget {
               const SizedBox(
                 height: 10,
               ),
+              Category.getListSum(recentCategoriesList) == 0
+                  ? const SizedBox(
+                      height: 0,
+                    )
+                  : PieChartDefault(categoryList: recentCategoriesList),
               ListView.builder(
                   physics: NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   itemCount: recentCategoriesList.length,
                   itemBuilder: (context, index) {
-                    return CategoryCard(
+                    return CategoryCardSmall(
                       model: recentCategoriesList[index],
                     );
                   }),

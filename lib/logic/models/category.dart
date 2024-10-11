@@ -69,4 +69,12 @@ class Category {
       items: filteredItems,
     );
   }
+
+  static double getListSum(List<Category> categories) {
+    double sum = 0;
+    for (int i = 0; i < categories.length; i++) {
+      sum += categories[i].totalSum;
+    }
+    return sum;
+  }
 }

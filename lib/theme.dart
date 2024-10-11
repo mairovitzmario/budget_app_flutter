@@ -68,3 +68,10 @@ InputDecoration buildTextFieldInputDecoration(
     ),
   );
 }
+
+Color getAdaptiveColor(Color backgroundColor) {
+  if (backgroundColor.computeLuminance() <= 0.5) {
+    return Colors.white;
+  } else
+    return Colors.black;
+}

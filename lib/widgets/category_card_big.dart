@@ -1,10 +1,11 @@
 import 'package:budget/logic/models/category.dart';
+import 'package:budget/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class CategoryCard extends StatelessWidget {
+class CategoryCardBig extends StatelessWidget {
   Category model;
-  CategoryCard({super.key, required this.model});
+  CategoryCardBig({super.key, required this.model});
 
   @override
   Widget build(BuildContext context) {
@@ -25,18 +26,14 @@ class CategoryCard extends StatelessWidget {
             '${model.name}',
             style: Theme.of(context).textTheme.titleSmall?.copyWith(
                   fontSize: 26,
-                  color: model.color.computeLuminance() <= 0.5
-                      ? Colors.white
-                      : Colors.black,
+                  color: getAdaptiveColor(model.color),
                 ),
           ),
           Text(
             '-${NumberFormat.compact().format(model.totalSum)}',
             style: Theme.of(context).textTheme.titleSmall?.copyWith(
                   fontSize: 26,
-                  color: model.color.computeLuminance() <= 0.5
-                      ? Colors.white
-                      : Colors.black,
+                  color: getAdaptiveColor(model.color),
                 ),
           ),
         ],
