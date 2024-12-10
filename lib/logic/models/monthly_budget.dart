@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MonthlyBudget {
   double _spentBudget;
@@ -9,21 +10,50 @@ class MonthlyBudget {
   String _month;
   int _year;
 
-  MonthlyBudget(
-      {required double spentBudget,
-      required double totalBudget,
-      required String month,
-      required int year})
-      : _spentBudget = spentBudget,
+  MonthlyBudget({
+    required double spentBudget,
+    required double totalBudget,
+    required String month,
+    required int year,
+  })  : _spentBudget = spentBudget,
         _totalBudget = totalBudget,
         _month = month,
         _year = year;
 
-  MonthlyBudget.now({required double spentBudget, required double totalBudget})
-      : _spentBudget = spentBudget,
+  MonthlyBudget.now({
+    required double spentBudget,
+    required double totalBudget,
+  })  : _spentBudget = spentBudget,
         _totalBudget = totalBudget,
         _month = DateFormat.MMMM().format(DateTime.now()),
         _year = DateTime.now().year;
+
+  static Future<MonthlyBudget> load() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    double spentBudget = prefs.getDouble('spentBudget') ?? 0;
+    double totalBudget = prefs.getDouble('totalBudget') ?? 0;
+    String? month = prefs.getString('month');
+    int? year = prefs.getInt('year');
+
+    if (year == null ||
+        month == null ||
+        month != DateFormat.MMMM().format(DateTime.now()) ||
+        year != DateTime.now().year) {
+      return MonthlyBudget.now(spentBudget: 0, totalBudget: 0);
+    } else {
+      return MonthlyBudget.now(
+          spentBudget: spentBudget, totalBudget: totalBudget);
+    }
+  }
+
+  void save() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setDouble('spentBudget', spentBudget);
+    prefs.setDouble('totalBudget', totalBudget);
+    prefs.setString('month', month);
+    prefs.setInt('year', year);
+  }
 
   // Current Budget
   double get spentBudget => _spentBudget;

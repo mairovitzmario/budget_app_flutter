@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
-class LockableAddButton extends StatelessWidget {
+class LockableButton extends StatelessWidget {
+  String title;
   bool isLocked;
   void Function() onPressedFunc;
 
-  LockableAddButton({
+  LockableButton({
     super.key,
+    required this.title,
     required this.isLocked,
     required this.onPressedFunc,
   });
@@ -32,7 +34,7 @@ class LockableAddButton extends StatelessWidget {
           vertical: 2,
         ),
         child: Text(
-          'Add',
+          title,
           style: Theme.of(context).textTheme.titleSmall?.copyWith(
                 fontWeight: FontWeight.w400,
                 color: Theme.of(context).colorScheme.inversePrimary,

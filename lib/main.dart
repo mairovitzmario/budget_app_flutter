@@ -14,13 +14,6 @@ void main() {
   runApp(const MyApp());
 }
 
-var categories = [
-  Category(name: 'Bills', color: Colors.yellow),
-  Category(name: 'Food', color: Colors.red),
-  Category(name: 'Trips', color: Colors.blue),
-  Category(name: 'Commute', color: Colors.green)
-];
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -29,10 +22,10 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-            create: (context) => BudgetProvider(
-                model: MonthlyBudget.now(spentBudget: 0, totalBudget: 0))),
+          create: (context) => BudgetProvider.load(),
+        ),
         ChangeNotifierProvider(
-          create: (context) => CategoriesProvider(categoriesList: categories),
+          create: (context) => CategoriesProvider.db(),
         ),
       ],
       child: MaterialApp(

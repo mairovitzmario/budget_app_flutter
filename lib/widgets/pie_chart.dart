@@ -1,7 +1,6 @@
 import 'package:budget/logic/models/category.dart';
 import 'package:budget/main.dart';
 import 'package:budget/theme.dart';
-import 'package:budget/widgets/indicator.dart';
 import 'package:fl_chart/fl_chart.dart';
 
 import 'package:flutter/material.dart';
@@ -22,7 +21,7 @@ class PieChartDefaultState extends State<PieChartDefault> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 10.0),
+      padding: const EdgeInsets.fromLTRB(30, 0, 30, 10),
       child: Row(
         children: <Widget>[
           Expanded(
@@ -39,20 +38,6 @@ class PieChartDefaultState extends State<PieChartDefault> {
                 ),
               ),
             ),
-          ),
-          SizedBox(
-            width: 10,
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: widget.categoryList
-                .map((category) => Indicator(
-                      color: category.color,
-                      text: category.name,
-                      isSquare: true,
-                    ))
-                .toList(),
           ),
         ],
       ),

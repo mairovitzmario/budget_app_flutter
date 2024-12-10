@@ -7,22 +7,25 @@ import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class AddCategoryPage extends StatefulWidget {
-  const AddCategoryPage({super.key});
+class EditCategoryPage extends StatefulWidget {
+  Category model;
+  EditCategoryPage({super.key, required this.model});
 
   @override
-  State<AddCategoryPage> createState() => _AddCategoryPageState();
+  State<EditCategoryPage> createState() => _EditCategoryPageState();
 }
 
-class _AddCategoryPageState extends State<AddCategoryPage> {
+class _EditCategoryPageState extends State<EditCategoryPage> {
   final TextEditingController _nameController = TextEditingController();
   bool _isFormCompleted = false;
-  Color selectedColor = Colors.grey;
+  late Color selectedColor;
 
   @override
   void initState() {
     super.initState();
     _nameController.addListener(_validateForm);
+    _nameController.text = widget.model.name;
+    selectedColor = widget.model.color;
   }
 
   @override
@@ -35,7 +38,7 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const AppBarSecondary(
-        title: 'Add a category',
+        title: 'Edit category',
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -53,9 +56,9 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
             Column(
               children: [
                 LockableButton(
-                    title: 'Add',
+                    title: 'Save',
                     isLocked: _isFormCompleted,
-                    onPressedFunc: () => _addCategory()),
+                    onPressedFunc: () => _editCategory()),
                 const SizedBox(
                   height: 10,
                 ),
@@ -67,11 +70,10 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
     );
   }
 
-  void _addCategory() {
-    context.read<CategoriesProvider>().addCategory(
-          _nameController.text,
-          selectedColor,
-        );
+  void _editCategory() {
+    context
+        .read<CategoriesProvider>()
+        .editCategory(widget.model, _nameController.text, selectedColor);
     Navigator.of(context).pop();
   }
 

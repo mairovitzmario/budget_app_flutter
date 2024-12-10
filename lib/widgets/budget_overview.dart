@@ -1,6 +1,8 @@
 import 'package:budget/logic/models/monthly_budget.dart';
 import 'package:budget/logic/providers/budget_provider.dart';
+import 'package:budget/logic/utils/utils.dart';
 import 'package:budget/main.dart';
+import 'package:budget/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
@@ -86,56 +88,55 @@ class _BudgetOverviewState extends State<BudgetOverview> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            RichText(
-              text: TextSpan(
-                children: [
-                  const TextSpan(
-                    text: 'Spent: ',
-                    style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.normal,
-                    ),
-                  ),
-                  TextSpan(
-                    text: NumberFormat.compact()
-                        .format(
-                            context.watch<BudgetProvider>().model.spentBudget)
-                        .toString(),
-                    style: const TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
+        RichText(
+          text: TextSpan(
+            children: [
+              const TextSpan(
+                text: 'Spent: ',
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.normal,
+                ),
               ),
-            ),
-            RichText(
-              text: TextSpan(
-                children: [
-                  const TextSpan(
-                    text: 'Total: ',
-                    style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.normal,
-                    ),
-                  ),
-                  TextSpan(
-                    text: NumberFormat.compact()
-                        .format(
-                            context.watch<BudgetProvider>().model.totalBudget)
-                        .toString(),
-                    style: const TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
+              TextSpan(
+                text: formatPrice(
+                    price: context.watch<BudgetProvider>().model.spentBudget,
+                    symbol: symbol),
+                style: const TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
+        ),
+        const SizedBox(
+          height: 2,
+        ),
+        RichText(
+          text: TextSpan(
+            children: [
+              const TextSpan(
+                text: 'Total: ',
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.normal,
+                ),
+              ),
+              TextSpan(
+                text: formatPrice(
+                    price: context.watch<BudgetProvider>().model.totalBudget,
+                    symbol: symbol),
+                style: const TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(
+          height: 8,
         ),
         RichText(
           text: TextSpan(
@@ -148,10 +149,10 @@ class _BudgetOverviewState extends State<BudgetOverview> {
                 ),
               ),
               TextSpan(
-                text: NumberFormat.compact()
-                    .format(
-                        context.watch<BudgetProvider>().model.remainingBudget)
-                    .toString(),
+                text: formatPrice(
+                    price:
+                        context.watch<BudgetProvider>().model.remainingBudget,
+                    symbol: symbol),
                 style: const TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,

@@ -73,7 +73,7 @@ class AddFloatingActionButton extends StatelessWidget {
   void _onAddExpenseTap(BuildContext context) {
     Navigator.of(context).pop();
     Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => const AddExpensePage()));
+        .push(MaterialPageRoute(builder: (context) => AddExpensePage()));
   }
 
   void _onAddCategoryTap(BuildContext context) {

@@ -1,4 +1,5 @@
 import 'package:budget/logic/models/category.dart';
+import 'package:budget/logic/utils/utils.dart';
 import 'package:budget/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -22,15 +23,19 @@ class CategoryCardSmall extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            '${model.name}',
-            style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                  fontSize: 26,
-                  color: getAdaptiveColor(model.color),
-                ),
+          Expanded(
+            child: Text(
+              '${model.name}',
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+              style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                    fontSize: 26,
+                    color: getAdaptiveColor(model.color),
+                  ),
+            ),
           ),
           Text(
-            '-${NumberFormat.compact().format(model.totalSum)}',
+            '-${formatPrice(price: model.totalSum, symbol: symbol)}',
             style: Theme.of(context).textTheme.titleSmall?.copyWith(
                   fontSize: 26,
                   color: getAdaptiveColor(model.color),

@@ -4,20 +4,20 @@ import 'package:budget/logic/providers/categories_provider.dart';
 import 'package:budget/logic/utils/dashboard_utils.dart';
 import 'package:budget/theme.dart';
 import 'package:budget/widgets/appbar_secondary.dart';
-import 'package:budget/widgets/lockable_add_button.dart';
+import 'package:budget/widgets/lockable_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class AddExpensePage extends StatefulWidget {
-  const AddExpensePage({super.key});
+  Category? selectedValue;
+  AddExpensePage({super.key, this.selectedValue});
 
   @override
   State<AddExpensePage> createState() => _AddExpensePageState();
 }
 
 class _AddExpensePageState extends State<AddExpensePage> {
-  Category? selectedValue;
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _priceController = TextEditingController();
   final TextEditingController _quantityController = TextEditingController();
@@ -29,6 +29,10 @@ class _AddExpensePageState extends State<AddExpensePage> {
     _nameController.addListener(_validateForm);
     _priceController.addListener(_validateForm);
     _quantityController.addListener(_validateForm);
+
+    setState(() {
+      widget.selectedValue = widget.selectedValue;
+    });
   }
 
   @override
@@ -70,8 +74,10 @@ class _AddExpensePageState extends State<AddExpensePage> {
             ),
             Column(
               children: [
-                LockableAddButton(
-                    isLocked: _isFormCompleted, onPressedFunc: _addItem),
+                LockableButton(
+                    title: 'Add',
+                    isLocked: _isFormCompleted,
+                    onPressedFunc: _addItem),
                 const SizedBox(
                   height: 10,
                 ),
@@ -89,14 +95,14 @@ class _AddExpensePageState extends State<AddExpensePage> {
       _isFormCompleted = _nameController.text.isNotEmpty &&
           _priceController.text.isNotEmpty &&
           _quantityController.text.isNotEmpty &&
-          selectedValue != null;
+          widget.selectedValue != null;
     });
   }
 
   void _addItem() {
     context.read<CategoriesProvider>().addItemToCategory(
         context,
-        selectedValue,
+        widget.selectedValue,
         Item(
             name: _nameController.text,
             price: double.parse(_priceController.text),
@@ -156,7 +162,7 @@ class _AddExpensePageState extends State<AddExpensePage> {
     final categoriesList = context.watch<CategoriesProvider>().categoriesList;
 
     return DropdownButtonFormField<Category>(
-      value: selectedValue,
+      value: widget.selectedValue,
       icon: Icon(
         Icons.arrow_drop_down,
         color: Theme.of(context).colorScheme.secondary,
@@ -188,17 +194,16 @@ class _AddExpensePageState extends State<AddExpensePage> {
           child: Row(
             children: [
               Icon(
-                Icons.category,
+                Icons.circle,
                 color: value.color,
-                size: 18,
+                size: 12,
               ),
               const SizedBox(width: 10),
               Text(
                 value.name,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyMedium
-                    ?.copyWith(color: value.color),
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: value.color,
+                    ),
               ),
             ],
           ),
@@ -206,7 +211,7 @@ class _AddExpensePageState extends State<AddExpensePage> {
       }).toList(),
       onChanged: (Category? newValue) {
         setState(() {
-          selectedValue = newValue;
+          widget.selectedValue = newValue;
           _validateForm(); // Call this to check if form is valid
         });
       },

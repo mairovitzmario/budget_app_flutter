@@ -1,8 +1,9 @@
-import 'package:budget/logic/navigation_utils.dart';
+import 'package:budget/logic/utils/navigation_utils.dart';
 import 'package:budget/pages/primary/categories_page.dart';
 import 'package:budget/pages/primary/dashboard_page.dart';
 import 'package:budget/pages/primary/shopping_list_page.dart';
 import 'package:budget/pages/primary/statistics_page.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class DrawerDefault extends StatelessWidget {
@@ -35,12 +36,12 @@ class DrawerDefault extends StatelessWidget {
             ),
             _buildListTile(
                 context, Icons.home_filled, 'Dashboard', DashboardPage()),
-            _buildListTile(context, Icons.bar_chart_outlined, 'Statistics',
-                StatisticsPage()),
             _buildListTile(
                 context, Icons.folder, 'Categories', CategoriesPage()),
             _buildListTile(context, Icons.description, 'Shopping List',
                 ShoppingListPage()),
+            _buildListTile(context, Icons.bar_chart_outlined, 'Statistics',
+                StatisticsPage()),
           ],
         ),
       ),
@@ -50,7 +51,8 @@ class DrawerDefault extends StatelessWidget {
   ListTile _buildListTile(
       BuildContext context, IconData icon, String label, Widget page) {
     return ListTile(
-      onTap: () => NavigationUtils.switchPageTo(context, page),
+      onTap: () => Navigator.of(context)
+          .pushReplacement(CupertinoPageRoute(builder: (context) => page)),
       leading: Icon(
         icon,
         color: Theme.of(context).colorScheme.inversePrimary,

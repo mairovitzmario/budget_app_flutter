@@ -4,6 +4,7 @@ Color surfaceColor = Colors.white;
 Color primaryColor = Colors.red.shade700;
 Color secondaryColor = Colors.red.shade300;
 Color inversePrimaryColor = Colors.white;
+String symbol = '\$';
 
 ThemeData lightMode = ThemeData(
   colorScheme: ColorScheme.light(
@@ -30,7 +31,7 @@ ThemeData lightMode = ThemeData(
     ),
     bodyLarge: TextStyle(
       fontSize: 24,
-      fontWeight: FontWeight.w400,
+      fontWeight: FontWeight.w500,
       color: inversePrimaryColor,
     ),
     bodyMedium: TextStyle(

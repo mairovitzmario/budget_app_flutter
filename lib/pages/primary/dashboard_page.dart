@@ -2,6 +2,8 @@ import 'package:budget/logic/models/category.dart';
 import 'package:budget/logic/models/monthly_budget.dart';
 import 'package:budget/logic/providers/budget_provider.dart';
 import 'package:budget/logic/providers/categories_provider.dart';
+import 'package:budget/logic/utils/utils.dart';
+import 'package:budget/theme.dart';
 import 'package:budget/widgets/category_card_small.dart';
 import 'package:budget/widgets/appbar_default.dart';
 import 'package:budget/widgets/pie_chart.dart';
@@ -39,15 +41,6 @@ class DashboardPage extends StatelessWidget {
               BudgetOverview(),
               const SizedBox(
                 height: 40,
-              ),
-              Text(
-                "Expenses",
-                style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      fontWeight: FontWeight.w500,
-                    ),
-              ),
-              const SizedBox(
-                height: 10,
               ),
               Category.getListSum(recentCategoriesList) == 0
                   ? const SizedBox(
@@ -90,8 +83,9 @@ class DashboardPage extends StatelessWidget {
           child: Row(
             children: [
               Text(
-                NumberFormat.compact()
-                    .format(context.watch<BudgetProvider>().model.totalBudget),
+                formatPrice(
+                    price: context.watch<BudgetProvider>().model.totalBudget,
+                    symbol: symbol),
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.primary,
                   fontSize: 42,
